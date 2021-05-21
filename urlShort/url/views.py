@@ -15,8 +15,8 @@ def redirector(request, hash_id=None):
     if hash_code is not None:
         return redirect(hash_code.decode('ascii'))
     
-    if UrlData.objects.filter(hash=hash_id).exists():
-        url = UrlData.objects.get(hash=hash_id)
+    if UrlData.objects.filter(slug=hash_id).exists():
+        url = UrlData.objects.get(slug=hash_id)
         rds.set(hash_id, url.url)
         return redirect(url.url)
 

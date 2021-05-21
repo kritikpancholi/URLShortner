@@ -22,6 +22,11 @@ def redirector(request, hash_id=None):
 
 
 def short(long_url):
+    if UrlData.objects.filter(url=long_url).exists():
+        # If short url already exists
+        obj = UrlData.objects.get(url=long_url)
+        return obj.slug
+
     N = 7
     s = string.ascii_uppercase + string.ascii_lowercase + string.digits
 
@@ -32,6 +37,7 @@ def short(long_url):
     if not UrlData.objects.filter(slug=url_id).exists():
         # save the data to the model
         create = UrlData.objects.create(url=long_url, slug=url_id)
+        create.save()
         return url_id
     else:
         # geneate a random string again
